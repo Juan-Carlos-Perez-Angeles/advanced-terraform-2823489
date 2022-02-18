@@ -31,29 +31,9 @@ data "aws_iam_user" "terraform" {
 resource "aws_s3_bucket" "red30-tfremotestate" {
   bucket = var.bucket_name
   force_destroy = true
-  acl = "private"
+  //acl = "private"
 
-  versioning {
-    enabled = true
-  }
-
-  # Grant read/write access to the terraform user
-  policy = <<EOF
-{
-    "Version": "2008-10-17",
-    "Statement": [
-        {
-            "Sid": "",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "${data.aws_iam_user.terraform.arn}"
-            },
-            "Action": "s3:*",
-            "Resource": "arn:aws:s3:::${var.bucket_name}/*"
-        }
-    ]
-}
-EOF
+  
 }
 
 resource "aws_s3_bucket_public_access_block" "red30-tfremotestate" {
